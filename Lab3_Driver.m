@@ -50,7 +50,7 @@ plot3(XE,YE,ZE)
 hold on
 grid on
 plot3(XS,YS,ZS,"*")
-plot3(x,y,z)
+%plot3(x,y,z)
 plot3(XVm,YVm,ZVm)
 %plot3(XVp,YVp,ZVp)
 daspect([1 1 1])
