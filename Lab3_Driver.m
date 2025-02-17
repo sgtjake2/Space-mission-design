@@ -39,17 +39,18 @@ YVp = out.simout2.Data(:,2);
 ZVp = out.simout2.Data(:,3);
 
 %NASA Refrence Data
-data = xlsread("Sun-Earth-2023-2024-equotoarl(1).csv")*1000;
-x = data(:,3);
-y = data(:,4);
-z = data(:,5);
+%data = xlsread("Sun-Earth-2023-2024-equotoarl(1).csv")*1000;
+%data_mars = xlsread("Sun-Mars-2023-2025-ecliptic.csv")*1000;
+%x = data_mars(:,3);
+%y = data_mars(:,4);
+%z = data_mars(:,5);
 
 figure(1)
 plot3(XE,YE,ZE)
 hold on
 grid on
 plot3(XS,YS,ZS,"*")
-%plot3(x,y,z)
+plot3(x,y,z)
 plot3(XVm,YVm,ZVm)
 %plot3(XVp,YVp,ZVp)
 daspect([1 1 1])
