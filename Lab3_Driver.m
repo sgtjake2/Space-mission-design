@@ -60,11 +60,11 @@ daspect([1 1 1])
 view(3)
 h = 1;
 
-for i = 1:10:16801
+for i = 1:50:16801
     hE = plot3(XE(i),YE(i),ZE(i),"Marker","o","Color","blue");
     hM = plot3(XM(i),YM(i),ZM(i),"Marker","o","Color","red");
     hV = plot3(XV(i),YV(i),ZV(i),"Marker","o","Color","green");
-    pause(0.001)
+    pause(0.01)
     delete(hE)
     delete(hM)
     delete(hV)
