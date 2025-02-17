@@ -9,34 +9,35 @@ Mm = 6.4171e23;
 
 Vel_s = [4.508e-3 -1.335e-2 -5.769e-3]*1000; %m/s
 Vel_p = [2.749848392692773E+01 -1.032646088959717E+01 1.535581598741675E-03]*1000; %m/s
-Vel_v = [1 1 1]*1000; %m/s
+Vel_v = [-2.625497707637767E+01 1.649830245531765E+01 5.627457721235540E-02]*1000; %m/s
 Vel_m = [-8.699321075487822E+00 -2.018860873085168E+01 -2.092884078165804E-01]*1000;
 
 Pos_s = [-1.313e6 -1.803e5 -4.319e4]*1000; %m
 Pos_p = [-5.328792362541436E+07 -1.426707827423932E+08 3.981048565176874E+04]*1000; %m
 Pos_m = [-2.299762717931310E+08 9.863481268283156E+07 7.712126942588501E+06]*1000;
+Pos_v = [-5.362193933254258E+07 -1.428620826284412E+08 4.195466200186312E+04]*1000;
 
 %% out
 
 %Earth Simulink Outputs
-XE = out.simout1.Data(:,1);
-YE = out.simout1.Data(:,2);
-ZE = out.simout1.Data(:,3);
+XE = out.OP.Data(:,1);
+YE = out.OP.Data(:,2);
+ZE = out.OP.Data(:,3);
 
 %Sun Simulink Outputs
-XS = out.simout.Data(:,1);
-YS = out.simout.Data(:,2);
-ZS = out.simout.Data(:,3);
+XS = out.OS.Data(:,1);
+YS = out.OS.Data(:,2);
+ZS = out.OS.Data(:,3);
 
-%OVs Simulink Outputs
-XVm = out.simout3.Data(:,1);
-YVm = out.simout3.Data(:,2);
-ZVm = out.simout3.Data(:,3);
+%OM Simulink Outputs
+XM = out.OM.Data(:,1);
+YM = out.OM.Data(:,2);
+ZM = out.OM.Data(:,3);
 
-%OVp Simulink Outputs
-XVp = out.simout2.Data(:,1);
-YVp = out.simout2.Data(:,2);
-ZVp = out.simout2.Data(:,3);
+%OV Simulink Outputs
+XV = out.OV.Data(:,1);
+YV = out.OV.Data(:,2);
+ZV = out.OV.Data(:,3);
 
 %NASA Refrence Data
 %data = xlsread("Sun-Earth-2023-2024-equotoarl(1).csv")*1000;
@@ -46,11 +47,27 @@ ZVp = out.simout2.Data(:,3);
 %z = data_mars(:,5);
 
 figure(1)
-plot3(XE,YE,ZE)
 hold on
+E = plot3(XE,YE,ZE);
 grid on
-plot3(XS,YS,ZS,"*")
+S = plot3(XS,YS,ZS,"*");
 %plot3(x,y,z)
-plot3(XVm,YVm,ZVm)
-%plot3(XVp,YVp,ZVp)
+M = plot3(XM,YM,ZM);
+V = plot3(XV,YV,ZV);
+%legend("Earth","Sun","Mars","Vehicle")
+
 daspect([1 1 1])
+view(3)
+h = 1;
+
+for i = 1:10:16801
+    hE = plot3(XE(i),YE(i),ZE(i),"Marker","o","Color","blue");
+    hM = plot3(XM(i),YM(i),ZM(i),"Marker","o","Color","red");
+    hV = plot3(XV(i),YV(i),ZV(i),"Marker","o","Color","green");
+    pause(0.001)
+    delete(hE)
+    delete(hM)
+    delete(hV)
+end
+
+
