@@ -10,7 +10,7 @@ Mm = 6.4171e23;
 
 Vel_s = [4.508e-3 -1.335e-2 -5.769e-3]*1000; %m/s
 Vel_p = [2.749848392692773E+01 -1.032646088959717E+01 1.535581598741675E-03]*1000; %m/s
-Vel_v = [-2.625497707637767E+01 1.649830245531765E+01 5.627457721235540E-02]*1000; %m/s
+Vel_v = ([-2.625497707637767E+01 1.649830245531765E+01 5.627457721235540E-02]*1000)+10000; %m/s
 Vel_m = [-8.699321075487822E+00 -2.018860873085168E+01 -2.092884078165804E-01]*1000;
 
 Pos_s = [-1.313e6 -1.803e5 -4.319e4]*1000; %m
@@ -42,26 +42,16 @@ XV = out.OV.Data(:,1);
 YV = out.OV.Data(:,2);
 ZV = out.OV.Data(:,3);
 
-%NASA Refrence Data
-%data = xlsread("Sun-Earth-2023-2024-equotoarl(1).csv")*1000;
-%data_mars = xlsread("Sun-Mars-2023-2025-ecliptic.csv")*1000;
-%x = data_mars(:,3);
-%y = data_mars(:,4);
-%z = data_mars(:,5);
-
-
 figure(1)
 hold on
 E = plot3(XE,YE,ZE);
 grid on
 S = plot3(XS,YS,ZS,"*");
-%plot3(x,y,z)
 M = plot3(XM,YM,ZM);
-%V = plot3(XV,YV,ZV);
 
-%p = [E,S,M];
-%l = ["Earth","Sun","Mars"];
-%legend(p,l)
+p = [E,S,M];
+l = ["Earth","Sun","Mars"];
+legend(p,l)
 
 daspect([1 1 1])
 view(3)
@@ -69,12 +59,18 @@ view(3)
 
 h = animatedline("Color","red","LineStyle","--","Marker","o");
 h1 = animatedline("Color","red","LineStyle","--");
-for i = 1:5:length(XE)
+hE = animatedline("Color","blue","LineStyle","--","Marker","o");
+hM = animatedline("Color","green","LineStyle","--","Marker","o");
+for i = 1:30:length(XE)
     addpoints(h,XV(i),YV(i),ZV(i))
     addpoints(h1,XV(i),YV(i),ZV(i))
+    addpoints(hE,XE(i),YE(i),ZE(i))
+    addpoints(hM,XM(i),YM(i),ZM(i))
     pause(0.001)
 
     clearpoints(h)
+    clearpoints(hE)
+    clearpoints(hM)
 end
 
 %{
