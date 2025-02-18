@@ -1,4 +1,5 @@
 close all
+clear
 
 %Constants for Model
 
@@ -16,6 +17,8 @@ Pos_s = [-1.313e6 -1.803e5 -4.319e4]*1000; %m
 Pos_p = [-5.328792362541436E+07 -1.426707827423932E+08 3.981048565176874E+04]*1000; %m
 Pos_m = [-2.299762717931310E+08 9.863481268283156E+07 7.712126942588501E+06]*1000;
 Pos_v = [-5.362193933254258E+07 -1.428620826284412E+08 4.195466200186312E+04]*1000;
+
+out = sim("Lab3_Sim.slx");
 
 %% out
 
@@ -46,6 +49,7 @@ ZV = out.OV.Data(:,3);
 %y = data_mars(:,4);
 %z = data_mars(:,5);
 
+
 figure(1)
 hold on
 E = plot3(XE,YE,ZE);
@@ -53,21 +57,33 @@ grid on
 S = plot3(XS,YS,ZS,"*");
 %plot3(x,y,z)
 M = plot3(XM,YM,ZM);
-V = plot3(XV,YV,ZV);
-%legend("Earth","Sun","Mars","Vehicle")
+%V = plot3(XV,YV,ZV);
+
+%p = [E,S,M];
+%l = ["Earth","Sun","Mars"];
+%legend(p,l)
 
 daspect([1 1 1])
 view(3)
-h = 1;
 
-for i = 1:50:16801
-    hE = plot3(XE(i),YE(i),ZE(i),"Marker","o","Color","blue");
-    hM = plot3(XM(i),YM(i),ZM(i),"Marker","o","Color","red");
-    hV = plot3(XV(i),YV(i),ZV(i),"Marker","o","Color","green");
-    pause(0.01)
-    delete(hE)
-    delete(hM)
-    delete(hV)
+
+h = animatedline("Color","red","LineStyle","--","Marker","o");
+h1 = animatedline("Color","red","LineStyle","--");
+for i = 1:5:length(XE)
+    addpoints(h,XV(i),YV(i),ZV(i))
+    addpoints(h1,XV(i),YV(i),ZV(i))
+    pause(0.001)
+
+    clearpoints(h)
 end
 
+%{
+for i = 1:length(XE)
+    h =  animatedline;
+    hE = addpoints(h,XE(i),YE(i),ZE(i),"Marker","o","Color","blue");
+    hM = addpoints(h,XM(i),YM(i),ZM(i),"Marker","o","Color","red");
+    hV = addpoints(h,XV(i),YV(i),ZV(i),"Marker","o","Color","green");
+    pause(0.01)
+end
+%}
 
