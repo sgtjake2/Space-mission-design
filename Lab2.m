@@ -11,7 +11,7 @@ omega = [48.3 76.7 205 49.5]*(pi/180);
 tau = [2460123 2460052 2459946 2460438];
 T = [88 224.7 365.2 687];
 
-t = "2002-10-06";
+t = "2002-10-08";
 t = datetime(t);
 
 jd = juliandate(t);
@@ -76,6 +76,9 @@ z03 = y3.*sin(i);
 
 p4 = plot3(x03,y03,z03,'o','Color','red','MarkerSize',10,...
     'MarkerFaceColor','red');
+
+data = xlsread("Sun-Earth-2023-2025(1).csv");
+dat = plot3(data(:,3)*1e-6,data(:,4)*1e-6, data(:,5)*1e-6);
 
 l = ["Mercury","Venus","Earth","Mars","Periapsis","Sun","Epoch"];
 

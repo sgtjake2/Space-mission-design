@@ -31,7 +31,7 @@ V = [0 0 1 0;
     9*ohm^2 0 0 2*ohm;
     0 -3*ohm^2 2*ohm 0];
 
-vs = sqrt(G*1000/35000000)
+vs = sqrt(G*1000/35000000);
 
 L1 = a*(1-((alpha/3)^(1/3)));
 L2 = a*(1+((alpha/3)^(1/3)));
@@ -67,8 +67,8 @@ velM = [-7.516793153236040E-01 -5.884845299522508E-01 -6.683923719039309E-03]*10
 %velS = (velM.*posS)./posM
 %velS = [1.257*velM(1) 1.094*velM(2) 1*velM(3)]+50;
 %velS = [-1.012041739961583E+00 -4.800076965180470E-01 1.499994544138000E-02]*1000;
-velS = velM;
-%velS = velM*([L2x L2y L2z]/posM)
+%velS = 0;
+velS = velM*([-2.86e8 3.616e8 6.742e7]/posM);
 %velS = [-7.253275256058060E-01 -2.281755498821680E-01]*1000;
 
 %Simulink Output
@@ -77,70 +77,7 @@ OE = out.OE;
 OM = out.OM;
 OS = out.OS;
 
-%data = xlsread("Data\Earth-Moon-2023.csv");
-
-%{
-L = a.*(1-(e.^2));
-r = L./(1+e.*cos(f));
-
-x2 = r.*cos(f+w);
-y2 = r.*sin(f+w);
-
-x0 = x2.*cos(omega)-y2.*cos(i).*sin(omega);
-y0 = x2.*sin(omega) + y2.*cos(i).*cos(omega);
-z0 = y2.*sin(i);
-%}
-
-%{
-figure(1)
-%p1 = plot(x0,y0);
-hold on
-grid on
-
-%x = P.*cos(w);
-%y = P.*sin(w);
-
-%{
-x1 = x.*cos(omega)-y.*cos(i).*sin(omega);
-y1 = x.*sin(omega) + y.*cos(i).*cos(omega);
-z1 = y.*sin(i);
-p2 = plot(x1,y1,'*','Color','blue','MarkerSize',10,...
-    'MarkerFaceColor','blue');
-%}
-
-%{
-L1p=plot(L1,0,"Marker","x");
-L2p=plot(L2,0,"Marker","x");
-L3p=plot(L3,0,"Marker","x");
-L4p=plot(L4,((sqrt(3)/2)*a),"Marker","x");
-L5p=plot(L5,-((sqrt(3)/2)*a),"Marker","x");
-%legend("Moon","L1","L2","L3","L4","L5")
-%}
-
-OMp = plot(OM.Data(:,1),OM.Data(:,2));
-OEp = plot(OE.Data(:,1),OE.Data(:,2), "Marker","*");
-p = plot(OM.Data(1,1),OM.Data(1,2),"Marker","*");
-%OMs = plot(OS.Data(:,1),OS.Data(:,2));
-%L2p = plot(L2x,L2y,"Marker","*");
-
-daspect([1 1 1])
-h = animatedline("Color","red","LineStyle","--","Marker","o");
-hS = animatedline("Color","red","LineStyle","--");
-hM = animatedline("Color","green","LineStyle","--","Marker","o");
-for i = 1:1:length(OM.Data)
-    addpoints(hM,OM.Data(i,1),OM.Data(i,2))
-    addpoints(h,OS.Data(i,1),OS.Data(i,2))
-    addpoints(hS,OS.Data(i,1),OS.Data(i,2))
-
-    pause(0.1)
-
-    clearpoints(h)
-    clearpoints(hM)
-end
-
-%dat = plot(data(:,3)*1000,data(:,4)*1000,"Marker","+");
-%}
-
+data = xlsread("Earth-Moon-2023 (2).csv");
 
 figure(2)
 hold on
@@ -150,6 +87,7 @@ OEp = plot3(OE.Data(:,1),OE.Data(:,2),OE.Data(:,3), "Marker","*");
 p = plot3(OM.Data(1,1),OM.Data(1,2),OM.Data(1,3),"Marker","*");
 OMs = plot3(OS.Data(:,1),OS.Data(:,2),OS.Data(:,3));
 %L2p = plot(L2x,L2y,"Marker","*");
+dat = plot3(data(:,3)*1000,data(:,4)*1000, data(:,5)*1000);
 view(3)
 
 h = animatedline("Color","red","LineStyle","--","Marker","o");
@@ -168,8 +106,5 @@ for i = 1:1000:length(OM.Data)
     clearpoints(h)
     clearpoints(hM)
 end
-
-
-
 
 toc
