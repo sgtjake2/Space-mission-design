@@ -26,7 +26,7 @@ grid on
 hold on
 e = plot3(OE.Data(:,1),OE.Data(:,2),OE.Data(:,3));
 s = plot3(OS.Data(:,1),OS.Data(:,2),OS.Data(:,3),"Marker","*");
-%j = plot3(OJ.Data(:,1),OJ.Data(:,2),OJ.Data(:,3));
+j = plot3(OJ.Data(:,1),OJ.Data(:,2),OJ.Data(:,3));
 
 view(3)
 
@@ -36,7 +36,7 @@ hE = animatedline("Color","green","LineStyle","--","Marker","o");
 
 %daspect([1 1 1])
 
-
+%{
 for i = 1:2000:length(OE.Data)
     addpoints(hE,OE.Data(i,1),OE.Data(i,2),OE.Data(i,3))
     addpoints(h,OJ.Data(i,1),OJ.Data(i,2),OJ.Data(i,3))
@@ -47,28 +47,17 @@ for i = 1:2000:length(OE.Data)
     clearpoints(hE)
     clearpoints(hJ)
 end
-
-
-%{
-figure(2)
-hold on
-grid on
-e = plot(OE.Data(:,1),OE.Data(:,3));
-s = plot(OS.Data(:,1),OS.Data(:,3),"Marker","*");
-j = plot(OJ.Data(:,1),OJ.Data(:,3));
 %}
-
-%daspect([1 1 1])
 
 dataE = xlsread("Earth-Sun-2022-2024.csv");
 dataJ = xlsread("JamesWebb-Sun-2022-2024.csv");
 
-figure(3)
+figure(2)
 hold on
 grid on
 
 datE = plot3(dataE(:,3),dataE(:,4),dataE(:,5));
-%datJ = plot3(dataJ(:,3),dataJ(:,4),dataJ(:,5));
+datJ = plot3(dataJ(:,3),dataJ(:,4),dataJ(:,5));
 
 
 view(3)
@@ -78,6 +67,7 @@ hJ1 = animatedline("Color","red","LineStyle","--","Marker","o");
 h1 = animatedline("Color","red","LineStyle","--");
 hE1 = animatedline("Color","green","LineStyle","--","Marker","o");
 
+%{
 for b = 1:length(dataE)
     addpoints(hE1,dataE(b,3),dataE(b,4),dataE(b,5))
     addpoints(h1,dataJ(b,3),dataJ(b,4),dataJ(b,5))
@@ -88,17 +78,18 @@ for b = 1:length(dataE)
     clearpoints(hE1)
     clearpoints(hJ1)
 end
+%}
 
-%{
+figure(3)
+hold on
+grid on
+j = plot3(OJ.data(:,1)-OE.data(:,1), OJ.data(:,2)-OE.data(:,2),OJ.data(:,3)-OE.data(:,3));
+view(3)
+daspect([1 1 1])
+
 figure(4)
 hold on
 grid on
-
-a = 1:300;
-
-datE = plot3(dataE(a,3),dataE(a,4),dataE(a,5));
-datJ = plot3(dataJ(a,3),dataJ(a,4),dataJ(a,5));
-
+j = plot3(dataJ(:,3)-dataE(:,3), dataJ(:,4)-dataE(:,4),dataJ(:,5)-dataE(:,5));
 view(3)
-%daspect([1 1 1])
-%}
+daspect([1 1 1])
