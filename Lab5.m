@@ -10,6 +10,7 @@ D = xE + xM;
 
 mE = 5.97219e24;
 mM = 7.349e22;
+m = 1000;
 
 G = 6.674e-11; %kg^-1m^3s^-2
 
@@ -39,22 +40,36 @@ alpha = mM/(mM+mE);
 %L2 = 4.475451e+08;
 %r = 3000*1000;
 
+%{
 eq = mE/((D+r)^2) + (mM/(r^2)) == (mE/(D^2)) + r*((mM+mE)/(D^3));
 sol = solve(eq,r);
 sol = vpa(sol);
+%}
+
+alpha = 2*(pi/180);
+eq = mE/((D+r)^2) + (mM/(r^2))*cos(alpha) == (mE/(D^2)) + r*((mM+mE)/(D^3));
+sol = solve(eq,r);
+sol = vpa(sol);
+
+FM = (G*mM)/(double(sol(3))^2);
+
+xS = double(sol(3))*cos(alpha);
+
+yS = sin(alpha)*double(sol(3));
+vSh = sqrt((yS*FM*sin(alpha))/m);
 
 %xDash = x-(1-(mM/mE)+(hL2-xM));
 
-hL2 = double(sol(3))+xM;
+xL2 = xS+xM;
 
 %vSo = sqrt((G*(mE))/L2);
 %vSe = o*L2;
-vSe = o*(hL2);
+vSe = o*(xL2);
 
 rho = D*((mM/mE)^(2/5));
 
-velS = [0 vSe 0];
-posS = [hL2 0 0];
+velS = [0 vSe -vSh];
+posS = [xL2 yS 0];
 
 %Az = 0.2*xM;
 %velS = [0 sqrt(o^2 * Az^2) 0];
@@ -75,7 +90,7 @@ m = plot3(OM(:,1),OM(:,2),OM(:,3));
 s = plot3(OS(:,1),OS(:,2),OS(:,3));
 
 view(3)
-daspect([1 1 1])
+%daspect([1 1 1])
 
 hM = animatedline("Color","red","LineStyle","--","Marker","o");
 hS = animatedline("Color","green","LineStyle","--","Marker","o");
