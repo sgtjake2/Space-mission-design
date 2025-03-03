@@ -18,8 +18,8 @@ o = sqrt((G*(mE+mM))/(D^3));
 
 T = 2*pi*sqrt((D^3)/(G*(mE+mM)));
 
-vE = (2*pi*xE)/T;
-vM = (2*pi*xM)/T;
+%vE = (2*pi*xE)/T;
+%vM = (2*pi*xM)/T;
 
 vE = o*xE;
 vM = o*xM;
@@ -34,46 +34,45 @@ velM = [0 vM 0];
 
 alpha = mM/(mM+mE);
 
-%L2 = xM*(1+((alpha/3)^(1/3)));
-%L2 = xM*(1+((mM/(3*mE))^(1/3)));
-%L2 = D*(1+((alpha/3)^(1/3)));
-%L2 = 4.475451e+08;
-%r = 3000*1000;
+%Circular Orbit
 
-%{
 eq = mE/((D+r)^2) + (mM/(r^2)) == (mE/(D^2)) + r*((mM+mE)/(D^3));
 sol = solve(eq,r);
 sol = vpa(sol);
-%}
+xS = double(sol(3));
 
+
+%Inducing a Halo Orbit
+%{
 alpha = 2*(pi/180);
 eq = mE/((D+r)^2) + (mM/(r^2))*cos(alpha) == (mE/(D^2)) + r*((mM+mE)/(D^3));
 sol = solve(eq,r);
 sol = vpa(sol);
+xS = double(sol(3))*cos(alpha);
+%}
 
 FM = (G*mM)/(double(sol(3))^2);
-
-xS = double(sol(3))*cos(alpha);
 
 yS = sin(alpha)*double(sol(3));
 vSh = sqrt((yS*FM*sin(alpha))/m);
 
-%xDash = x-(1-(mM/mE)+(hL2-xM));
-
 xL2 = xS+xM;
 
-%vSo = sqrt((G*(mE))/L2);
-%vSe = o*L2;
 vSe = o*(xL2);
 
 rho = D*((mM/mE)^(2/5));
 
+%Circular orbit
+
+velS = [0 vSe 0];
+posS = [xL2 0 0];
+
+
+%Inducing a halo orbit
+%{
 velS = [0 vSe -vSh];
 posS = [xL2 yS 0];
-
-%Az = 0.2*xM;
-%velS = [0 sqrt(o^2 * Az^2) 0];
-%posS = [hL2 0 Az];
+%}
 
 out = sim("Lab5_Sim");
 
@@ -84,6 +83,9 @@ OS = out.OS.data;
 figure(1)
 hold on
 grid on
+xlabel("X")
+ylabel("Y")
+zlabel("Z")
 
 e = plot3(OE(:,1),OE(:,2),OE(:,3));
 m = plot3(OM(:,1),OM(:,2),OM(:,3));
@@ -92,12 +94,17 @@ s = plot3(OS(:,1),OS(:,2),OS(:,3));
 view(3)
 %daspect([1 1 1])
 
-hM = animatedline("Color","red","LineStyle","--","Marker","o");
-hS = animatedline("Color","green","LineStyle","--","Marker","o");
+hM = animatedline("Color","red","LineStyle","none","Marker","o");
+hS = animatedline("Color","green","LineStyle","none","Marker","o");
 hE = animatedline("Color","blue","LineStyle","--","Marker","o");
 hB = animatedline("Color","black","LineStyle","--");
 hC = animatedline("Color","black","LineStyle","-.");
 hD = animatedline("Color","black","LineStyle","-.");
+
+plots = [e m hM s hS];
+l = ["Earth","Moon", "","Satalite",""];
+
+legend(plots, l)
 
 for i = 1:100:length(OM)
     addpoints(hM,OM(i,1),OM(i,2),OM(i,3))
@@ -112,6 +119,8 @@ for i = 1:100:length(OM)
     d = [OS(i,1) OS(i,2) OS(i,3);
         OM(i,1) OM(i,2) OM(i,3)];
     addpoints(hD, d(:,1),d(:,2),d(:,3))
+    
+    %view([OS(i,1) OS(i,2) OS(i,3)])
 
     pause(0.001)
 
