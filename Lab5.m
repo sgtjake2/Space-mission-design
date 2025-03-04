@@ -10,7 +10,7 @@ D = xE + xM;
 
 mE = 5.97219e24;
 mM = 7.349e22;
-m = 1000;
+mS = 1000;
 
 G = 6.674e-11; %kg^-1m^3s^-2
 
@@ -32,29 +32,31 @@ posM = [xM 0 0];
 velE = [0 -vE 0];
 velM = [0 vM 0];
 
-alpha = mM/(mM+mE);
-
 %Circular Orbit
 
+%eq = (G*mE*mS)/((D+r)^2) + ((G*mS*mM)/(r^2)) == mS*((o*(D+r))^2)/(D+r);
 eq = mE/((D+r)^2) + (mM/(r^2)) == (mE/(D^2)) + r*((mM+mE)/(D^3));
 sol = solve(eq,r);
 sol = vpa(sol);
 xS = double(sol(3));
 
+%---
 
 %Inducing a Halo Orbit
 %{
-alpha = 2*(pi/180);
+alpha = 18.4*(pi/180);
 eq = mE/((D+r)^2) + (mM/(r^2))*cos(alpha) == (mE/(D^2)) + r*((mM+mE)/(D^3));
 sol = solve(eq,r);
 sol = vpa(sol);
-xS = double(sol(3))*cos(alpha);
+xS = double(sol(3));
+zL2 = tan(alpha)*xS;
+
+hS=sqrt((xS^2)+(zL2^2));
+FM = (G*mM)/((hS)^2);
+
+vSh = sqrt((zL2*FM*sin(alpha))/mS);
 %}
-
-FM = (G*mM)/(double(sol(3))^2);
-
-yS = sin(alpha)*double(sol(3));
-vSh = sqrt((yS*FM*sin(alpha))/m);
+%---
 
 xL2 = xS+xM;
 
@@ -70,8 +72,8 @@ posS = [xL2 0 0];
 
 %Inducing a halo orbit
 %{
-velS = [0 vSe -vSh];
-posS = [xL2 yS 0];
+velS = [0 vSe+vSh 0];
+posS = [xL2 0 zL2];
 %}
 
 out = sim("Lab5_Sim");
@@ -94,12 +96,12 @@ s = plot3(OS(:,1),OS(:,2),OS(:,3));
 view(3)
 %daspect([1 1 1])
 
-hM = animatedline("Color","red","LineStyle","none","Marker","o");
-hS = animatedline("Color","green","LineStyle","none","Marker","o");
-hE = animatedline("Color","blue","LineStyle","--","Marker","o");
-hB = animatedline("Color","black","LineStyle","--");
-hC = animatedline("Color","black","LineStyle","-.");
-hD = animatedline("Color","black","LineStyle","-.");
+hM = animatedline("Color","red","LineStyle","none","Marker","o"); %Moon Marker
+hS = animatedline("Color","green","LineStyle","none","Marker","o"); %Satalite Marker
+hE = animatedline("Color","blue","LineStyle","--","Marker","o"); %Earth Marker
+hB = animatedline("Color","black","LineStyle","--"); %Moon to Earth Line
+hC = animatedline("Color","black","LineStyle","-."); %Satalite to Earth Line
+hD = animatedline("Color","black","LineStyle","-."); %Moon to Satalite Line
 
 plots = [e m hM s hS];
 l = ["Earth","Moon", "","Satalite",""];
