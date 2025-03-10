@@ -85,9 +85,9 @@ OS = out.OS.data;
 figure(1)
 hold on
 grid on
-xlabel("X")
-ylabel("Y")
-zlabel("Z")
+xlabel("X (m)")
+ylabel("Y (m)")
+zlabel("Z (m)")
 
 e = plot3(OE(:,1),OE(:,2),OE(:,3));
 m = plot3(OM(:,1),OM(:,2),OM(:,3));
