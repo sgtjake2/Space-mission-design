@@ -67,7 +67,7 @@ rho = D*((mM/mE)^(2/5));
 %Circular orbit
 
 velS = [0 vSe 0];
-posS = [xL2 0 0];
+posS = [xL2 0 5000];
 
 
 %Inducing a halo orbit
@@ -91,26 +91,59 @@ h1 = cross(OM(1,:),OMv(1,:));
 h2 = cross(OM((47174),:),OMv((47174),:));
 h3 = cross(OM((length(OE)),:),OMv((length(OE)),:));
 
-h_hat = h./norm(h);
+h_hat = zeros(length(OM),3);
+r_hat = zeros(length(OM),3);
+u_hat = zeros(length(OM),3);
 
-r_hat = OM/norm(OM);
+for i = 1:length(OM)
+    h_hat_temp = h(i,:)./norm(h(i,:));
+    r_hat_temp = OM(i,:)/norm(OM(i,:));
+    u_hat_temp = cross(h_hat_temp,r_hat_temp);
 
-u_hat = cross(h_hat,r_hat);
+    h_hat(i,:) = h_hat_temp;
+    r_hat(i,:) = r_hat_temp;
+    u_hat(i,:) = u_hat_temp;
+end
 
-xr = dot(OS,r_hat);
-yr = dot(OS,u_hat);
-zr = dot(OS,h_hat);
+xr = zeros(length(OM),3);
+yr = zeros(length(OM),3);
+zr = zeros(length(OM),3);
 
+for j = 1:length(OM)
+    xr_temp = dot(OS(j,:),r_hat(j,:));
+    yr_temp= dot(OS(j,:),u_hat(j,:));
+    zr_temp = dot(OS(j,:),h_hat(j,:));
+
+    xr(j,:) = xr_temp;
+    yr(j,:) = yr_temp;
+    zr(j,:) = zr_temp;
+end
+
+%Plotting Rotational Plane
 figure(2)
-plot3(xr,yr,zr)
+rotational = plot(yr(:,2),zr(:,3));
+hold on
+grid on
+xlabel("Yr (m)")
+ylabel("Zr (m)")
+title("Satalite Path in Rotational Plane")
+start = plot(yr(1,2),zr(1,3),"Marker","*","Color","green","LineStyle","none");
+finish = plot(yr(length(OM),2),zr(length(OM),3),"Marker","*","Color","red","LineStyle","none");
+moon = plot(0,0,"MarkerSize",15,"Marker","o","Color","blue","LineStyle","none");
 
-%Plotting
+plots = [rotational start finish moon];
+l = ["Satalite Path","Start Position", "End Posistion","Moon"];
+
+legend(plots, l)
+
+%Plotting three body simulation
 figure(1)
 hold on
 grid on
 xlabel("X (m)")
 ylabel("Y (m)")
 zlabel("Z (m)")
+title("Three Body Simulation of Earth, Moon and Satalite")
 
 e = plot3(OE(:,1),OE(:,2),OE(:,3));
 m = plot3(OM(:,1),OM(:,2),OM(:,3));
