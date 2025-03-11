@@ -76,12 +76,35 @@ velS = [0 vSe+vSh 0];
 posS = [xL2 0 zL2];
 %}
 
+
+%Outputting Simulink Data
 out = sim("Lab5_Sim");
 
 OE = out.OE.data;
 OM = out.OM.data;
+OMv = out.OMv.data;
 OS = out.OS.data;
 
+%find h and check if h is constant
+h = cross(OM,OMv);
+h1 = cross(OM(1,:),OMv(1,:));
+h2 = cross(OM((47174),:),OMv((47174),:));
+h3 = cross(OM((length(OE)),:),OMv((length(OE)),:));
+
+h_hat = h./norm(h);
+
+r_hat = OM/norm(OM);
+
+u_hat = cross(h_hat,r_hat);
+
+xr = dot(OS,r_hat);
+yr = dot(OS,u_hat);
+zr = dot(OS,h_hat);
+
+figure(2)
+plot3(xr,yr,zr)
+
+%Plotting
 figure(1)
 hold on
 grid on
@@ -136,7 +159,7 @@ for i = 1:100:length(OM)
     end
 end
 
-%% huh
+%% hmmmmm
 
 %{
 clear
