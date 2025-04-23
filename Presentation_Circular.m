@@ -88,6 +88,8 @@ for j = 1:length(OM)
     zr(j,:) = zr_temp;
 end
 
+mid = int16(length(OS)/2);
+
 %Plotting Rotational Plane
 figure(2)
 movegui([1000 300])
@@ -127,9 +129,39 @@ finish = plot(yr(end,2)/1000,zr(end,3)/1000,"Marker","*","Color","red","LineStyl
 moon = plot(0,0,"MarkerSize",15,"Marker","o","Color","red","LineStyle","none");
 hR2 = animatedline("Color","green","LineStyle","none","Marker","o"); %Satalite Marker on rotational frame
 
+xlim([-2.2 1.2])
+
 plots = [rotational start finish moon hR2];
 l = ["Satalite Path","Start Position", "End Posistion","Moon","Satalite"];
 
+lgd = legend(plots, l);
+lgd.Location = "eastoutside";
+
+daspect([1 1 1])
+
+hold off
+
+%Non animated fig 1
+figure(5)
+movegui([300 300])
+hold on
+grid on
+xlabel("X (km)")
+ylabel("Y (km)")
+zlabel("Z (km)")
+title("Three Body Simulation of Earth, Moon and Satalite")
+e = plot3(OE(1,1)/1000,OE(1,2)/1000,OE(1,3)/1000,Marker="o",LineStyle="none",Color="blue");
+m = plot3(OM(:,1)/1000,OM(:,2)/1000,OM(:,3)/1000);
+s = plot3(OS(:,1)/1000,OS(:,2)/1000,OS(:,3)/1000);
+mM = plot3(OM(mid,1)/1000,OM(mid,2)/1000,OM(mid,3)/1000,Marker="o",LineStyle="none",Color="red");
+mS = plot3(OS(mid,1)/1000,OS(mid,2)/1000,OS(mid,3)/1000,Marker="o",LineStyle="none",Color="green");
+start = plot3(OS(1,1)/1000,OS(1,2)/1000,OS(1,3)/1000,"Marker","*","Color","green","LineStyle","none");
+finish = plot3(OS(end,1)/1000,OS(end,2)/1000,OS(end,3)/1000,"Marker","*","Color","red","LineStyle","none");
+
+view(3)
+
+plots = [e m mM s mS start finish];
+l = ["Earth","Moon Path", "Moon","Satalite Path","Satalite","Start Position","End Position"];
 lgd = legend(plots, l);
 lgd.Location = "eastoutside";
 
@@ -144,7 +176,6 @@ xlabel("X (km)")
 ylabel("Y (km)")
 zlabel("Z (km)")
 title("Three Body Simulation of Earth, Moon and Satalite")
-mid = int16(length(OS)/2);
 e = plot3(OE(:,1)/1000,OE(:,2)/1000,OE(:,3)/1000);
 m = plot3(OM(:,1)/1000,OM(:,2)/1000,OM(:,3)/1000);
 s = plot3(OS(:,1)/1000,OS(:,2)/1000,OS(:,3)/1000);
@@ -156,22 +187,41 @@ view(3)
 
 hM = animatedline("Color","red","LineStyle","none","Marker","o"); %Moon Marker
 hS = animatedline("Color","green","LineStyle","none","Marker","o"); %Satalite Marker
-hE = animatedline("Color","blue","LineStyle","--","Marker","o"); %Earth Marker
+hE = animatedline("Color","blue","LineStyle","none","Marker","o"); %Earth Marker
 hB = animatedline("Color","black","LineStyle","--"); %Moon to Earth Line
 hC = animatedline("Color","black","LineStyle","-."); %Satalite to Earth Line
 hD = animatedline("Color","black","LineStyle","-."); %Moon to Satalite Line
 
-plots = [e m hM s hS start finish];
-l = ["Earth","Moon", "","Satalite","","Start Position","End Position"];
+plots = [hE m hM s hS start finish];
+l = ["Earth","Moon Path", "Moon","Satalite Path","Satalite","Start Position","End Position"];
 
-legend(plots, l)
+lgd = legend(plots, l);
+lgd.Location = "eastoutside";
 
 hold off
 
+%Figure 3
 figure(3)
 hold on
 grid on
-plot(xr(:,1),zr(:,3))
+side = plot(xr(:,1)/1000,zr(:,3)/1000,LineWidth=1.5);
+%xlim([4.39e5 4.410e5])
+start = plot(xr(1,2)/1000,zr(1,3)/1000,"Marker","*","Color","green","LineStyle","none");
+finish = plot(xr(end,2)/1000,zr(end,3)/1000,"Marker","*","Color","red","LineStyle","none");
+l2 = plot(xL2/1000,0,"MarkerSize",10,"Marker","o","Color","red","LineStyle","none");
+xlabel("Xr (km)")
+ylabel("Zr (km)")
+title(["Side view of the Satalite Path"; "in the Rotational Frame"])
+hR3 = animatedline("Color","green","LineStyle","none","Marker","o");
+
+daspect([1 1 1])
+
+plots = [side start finish l2 hR3];
+l = ["Satalite Path","Start Position", "End Posistion","L2 Point","Satalite"];
+
+lgd = legend(plots, l);
+lgd.Location = "eastoutside";
+
 hold off
 
 for i = 1:100:length(OM)
@@ -190,9 +240,11 @@ for i = 1:100:length(OM)
     addpoints(hD, d(:,1)/1000,d(:,2)/1000,d(:,3)/1000)
 
     %figure(2)
-    %addpoints(hR1,yr(i,2),zr(i,3))
+    %addpoints(hR3,yr(i,2),zr(i,3))
     addpoints(hR2,yr(i,2)/1000,zr(i,3)/1000)
 
+    %figure(3)
+    addpoints(hR3,xr(i,1)/1000,zr(i,3)/1000)
 
     pause(0.001)
 
@@ -203,7 +255,7 @@ for i = 1:100:length(OM)
         clearpoints(hS)
         clearpoints(hC)
         clearpoints(hD)
-        %clearpoints(hR1)
+        clearpoints(hR3)
         clearpoints(hR2)
     end
 end

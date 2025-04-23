@@ -91,6 +91,8 @@ for j = 1:length(OM)
     zr(j,:) = zr_temp;
 end
 
+mid = int16(length(OS)/2);
+
 %Figure 3
 figure(3)
 hold on
@@ -104,6 +106,9 @@ xlabel("Xr (km)")
 ylabel("Zr (km)")
 title(["Side view of the Satalite Path"; "in the Rotational Frame"])
 hR3 = animatedline("Color","green","LineStyle","none","Marker","o");
+
+ylim([-2500 2100])
+xlim([4.39e5 4.41e5])
 
 daspect([1 1 1])
 
@@ -148,10 +153,42 @@ start = plot(yr(1,2)/1000,zr(1,3)/1000,"Marker","*","Color","green","LineStyle",
 finish = plot(yr(end,2)/1000,zr(end,3)/1000,"Marker","*","Color","red","LineStyle","none");
 moon = plot(0,0,"MarkerSize",15,"Marker","o","Color","red","LineStyle","none");
 hR2 = animatedline("Color","green","LineStyle","none","Marker","o"); %Satalite Marker on rotational frame
+
+ylim([-2500 2100])
+
 daspect([1 1 1])
 
 plots = [rotational start finish moon hR2];
 l = ["Satalite Path","Start Position", "End Posistion","Moon","Satalite"];
+
+lgd = legend(plots, l);
+lgd.Location = "eastoutside";
+
+hold off
+
+%Unanimated Fig 1
+figure(5)
+movegui([300 300])
+hold on
+grid on
+xlabel("X (km)")
+ylabel("Y (km)")
+zlabel("Z (km)")
+title("Three Body Simulation of Earth, Moon and Satalite")
+e = plot3(OE(1,1)/1000,OE(1,2)/1000,OE(1,3)/1000,Marker="o",LineStyle="none",Color="blue");
+m = plot3(OM(:,1)/1000,OM(:,2)/1000,OM(:,3)/1000);
+s = plot3(OS(:,1)/1000,OS(:,2)/1000,OS(:,3)/1000);
+mM = plot3(OM(mid,1)/1000,OM(mid,2)/1000,OM(mid,3)/1000,Marker="o",LineStyle="none",Color="red");
+mS = plot3(OS(mid,1)/1000,OS(mid,2)/1000,OS(mid,3)/1000,Marker="o",LineStyle="none",Color="green");
+start = plot3(OS(1,1)/1000,OS(1,2)/1000,OS(1,3)/1000,"Marker","*","Color","green","LineStyle","none");
+finish = plot3(OS(end,1)/1000,OS(end,2)/1000,OS(end,3)/1000,"Marker","*","Color","red","LineStyle","none");
+
+view(3)
+
+%daspect([1 1 1])
+
+plots = [e m mM s mS start finish];
+l = ["Earth","Moon Path", "Moon","Satalite Path","Satalite","Start Position","End Position"];
 
 lgd = legend(plots, l);
 lgd.Location = "eastoutside";
