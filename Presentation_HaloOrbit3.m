@@ -91,17 +91,34 @@ for j = 1:length(OM)
     zr(j,:) = zr_temp;
 end
 
+%Figure 3
 figure(3)
 hold on
 grid on
-side = plot(xr,zr);
-xlim([4.39e8 4.410e8])
+side = plot(xr(:,1)/1000,zr(:,3)/1000);
+%xlim([4.39e5 4.410e5])
+start = plot(xr(1,2)/1000,zr(1,3)/1000,"Marker","*","Color","green","LineStyle","none");
+finish = plot(xr(end,2)/1000,zr(end,3)/1000,"Marker","*","Color","red","LineStyle","none");
+l2 = plot(xL2/1000,0,"MarkerSize",10,"Marker","o","Color","red","LineStyle","none");
+xlabel("Xr (km)")
+ylabel("Zr (km)")
+title(["Side view of the Satalite Path"; "in the Rotational Frame"])
 hR3 = animatedline("Color","green","LineStyle","none","Marker","o");
+
+daspect([1 1 1])
+
+plots = [side start finish l2 hR3];
+l = ["Satalite Path","Start Position", "End Posistion","L2 Point","Satalite"];
+
+lgd = legend(plots, l);
+lgd.Location = "eastoutside";
+
 hold off
 
 %Plotting Rotational Plane
 figure(2)
 movegui([1000 300])
+%{
 subplot(1,2,1)
 rotational = plot(yr(:,2),zr(:,3));
 hold on
@@ -118,24 +135,26 @@ xlim([-3000*2000 3000*2000])
 ylim([-3000*2000 3000*2000])
 
 hold off
+%}
 
-subplot(1,2,2)
-rotational = plot(yr(:,2),zr(:,3));
+%subplot(1,2,2)
+rotational = plot(yr(:,2)/1000,zr(:,3)/1000);
 hold on
 grid on
-xlabel("Yr (m)")
-ylabel("Zr (m)")
+xlabel("Yr (km)")
+ylabel("Zr (km)")
 title(["Satalite Path in Rotational Plane",""])
-start = plot(yr(1,2),zr(1,3),"Marker","*","Color","green","LineStyle","none");
-finish = plot(yr(end,2),zr(end,3),"Marker","*","Color","red","LineStyle","none");
+start = plot(yr(1,2)/1000,zr(1,3)/1000,"Marker","*","Color","green","LineStyle","none");
+finish = plot(yr(end,2)/1000,zr(end,3)/1000,"Marker","*","Color","red","LineStyle","none");
 moon = plot(0,0,"MarkerSize",15,"Marker","o","Color","red","LineStyle","none");
 hR2 = animatedline("Color","green","LineStyle","none","Marker","o"); %Satalite Marker on rotational frame
 daspect([1 1 1])
 
-plots = [rotational start finish moon hR1];
+plots = [rotational start finish moon hR2];
 l = ["Satalite Path","Start Position", "End Posistion","Moon","Satalite"];
 
-legend(plots, l)
+lgd = legend(plots, l);
+lgd.Location = "eastoutside";
 
 hold off
 
@@ -144,55 +163,56 @@ figure(1)
 movegui([300 300])
 hold on
 grid on
-xlabel("X (m)")
-ylabel("Y (m)")
-zlabel("Z (m)")
+xlabel("X (km)")
+ylabel("Y (km)")
+zlabel("Z (km)")
 title("Three Body Simulation of Earth, Moon and Satalite")
 mid = int16(length(OS)/2);
-e = plot3(OE(:,1),OE(:,2),OE(:,3));
-m = plot3(OM(:,1),OM(:,2),OM(:,3));
-s = plot3(OS(:,1),OS(:,2),OS(:,3));
-start = plot3(OS(1,1),OS(1,2),OS(1,3),"Marker","*","Color","green","LineStyle","none");
-finish = plot3(OS(end,1),OS(end,2),OS(end,3),"Marker","*","Color","red","LineStyle","none");
+e = plot3(OE(:,1)/1000,OE(:,2)/1000,OE(:,3)/1000);
+m = plot3(OM(:,1)/1000,OM(:,2)/1000,OM(:,3)/1000);
+s = plot3(OS(:,1)/1000,OS(:,2)/1000,OS(:,3)/1000);
+start = plot3(OS(1,1)/1000,OS(1,2)/1000,OS(1,3)/1000,"Marker","*","Color","green","LineStyle","none");
+finish = plot3(OS(end,1)/1000,OS(end,2)/1000,OS(end,3)/1000,"Marker","*","Color","red","LineStyle","none");
 
 view(3)
 %daspect([1 1 1])
 
 hM = animatedline("Color","red","LineStyle","none","Marker","o"); %Moon Marker
 hS = animatedline("Color","green","LineStyle","none","Marker","o"); %Satalite Marker
-hE = animatedline("Color","blue","LineStyle","--","Marker","o"); %Earth Marker
+hE = animatedline("Color","blue","LineStyle","none","Marker","o"); %Earth Marker
 hB = animatedline("Color","black","LineStyle","--"); %Moon to Earth Line
 hC = animatedline("Color","black","LineStyle","-."); %Satalite to Earth Line
 hD = animatedline("Color","black","LineStyle","-."); %Moon to Satalite Line
 
-plots = [e m hM s hS start finish];
-l = ["Earth","Moon", "","Satalite","","Start Position","End Position"];
+plots = [hE m hM s hS start finish];
+l = ["Earth","Moon Path", "Moon","Satalite Path","Satalite","Start Position","End Position"];
 
-legend(plots, l)
+lgd = legend(plots, l);
+lgd.Location = "eastoutside";
 
 hold off
 
 for i = 1:100:length(OM)
     %figure(1)
-    addpoints(hM,OM(i,1),OM(i,2),OM(i,3))
-    addpoints(hE,OE(i,1),OE(i,2),OE(i,3))
-    addpoints(hS,OS(i,1),OS(i,2),OS(i,3))
+    addpoints(hM,OM(i,1)/1000,OM(i,2)/1000,OM(i,3)/1000)
+    addpoints(hE,OE(i,1)/1000,OE(i,2)/1000,OE(i,3)/1000)
+    addpoints(hS,OS(i,1)/1000,OS(i,2)/1000,OS(i,3)/1000)
     b = [OM(i,1) OM(i,2) OM(i,3);
         OE(i,1) OE(i,2) OE(i,3)];
-    addpoints(hB, b(:,1),b(:,2),b(:,3))
+    addpoints(hB, b(:,1)/1000,b(:,2)/1000,b(:,3)/1000)
     c = [OS(i,1) OS(i,2) OS(i,3);
         OE(i,1) OE(i,2) OE(i,3)];
-    addpoints(hC, c(:,1),c(:,2),c(:,3))
+    addpoints(hC, c(:,1)/1000,c(:,2)/1000,c(:,3)/1000)
     d = [OS(i,1) OS(i,2) OS(i,3);
         OM(i,1) OM(i,2) OM(i,3)];
-    addpoints(hD, d(:,1),d(:,2),d(:,3))
+    addpoints(hD, d(:,1)/1000,d(:,2)/1000,d(:,3)/1000)
 
     %figure(2)
-    addpoints(hR1,yr(i,2),zr(i,3))
-    addpoints(hR2,yr(i,2),zr(i,3))
+    %addpoints(hR1,yr(i,2),zr(i,3))
+    addpoints(hR2,yr(i,2)/1000,zr(i,3)/1000)
 
     %figure(3)
-    addpoints(hR3,xr(i,1),zr(i,3))
+    addpoints(hR3,xr(i,1)/1000,zr(i,3)/1000)
 
 
     pause(0.001)
@@ -204,7 +224,7 @@ for i = 1:100:length(OM)
         clearpoints(hS)
         clearpoints(hC)
         clearpoints(hD)
-        clearpoints(hR1)
+        %clearpoints(hR1)
         clearpoints(hR2)
         clearpoints(hR3)
     end

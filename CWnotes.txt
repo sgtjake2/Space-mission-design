@@ -1,18 +1,45 @@
 https://www.researchgate.net/figure/Locations-of-the-five-Earth-Moon-Lagrangian-points-namely-where-the-Earth-and-Moon_fig1_228781180
+
+Background Reference
 http://hyperphysics.phy-astr.gsu.edu/hbase/Mechanics/lagpt.html#c1
+
+Stability of James Webb
 https://math.arizona.edu/~gabitov/teaching/141/math_485/Final_Report/Lagrange_Final_Report.pdf
+
+Chegg
 https://www.chegg.com/homework-help/questions-and-answers/aero419-coursework-exercize-2025-modelling-spacecraft-halo-orbit-around-earth-moon-l2-lagr-q227682177?msockid=108816c53fad63073bde035a3e8a6220
+
+PHD Linked with New SMAD
 https://www.proquest.com/docview/304889108?pq-origsite=gscholar&fromopenview=true&sourcetype=Dissertations%20&%20Theses
+
+Old NASA Report
 https://ntrs.nasa.gov/api/citations/20040171613/downloads/20040171613.pdf
+
 The New SMAD TL 790 W49
 Fundamentals of Astrodynamics and Applications TL 1050 V17 5
+
+Finding r equation
 https://www.toppr.com/guides/physics/gravitation/lagrangian-point/
+
 https://link.springer.com/content/pdf/10.1007/BF01229511.pdf?utm_source=scopus&getft_integrator=scopus
+
+Matrix Linearising
 https://ejaet.com/PDF/2-12/EJAET-2-12-53-58.pdf
+
+Mathematical Model and L2 original equation
 https://wmap.gsfc.nasa.gov/media/ContentMedia/lagrange.pdf
+
+Good Forces Reference
 https://www.spaceacademy.net.au/library/notes/lagrangp.htm
+
+
 https://orbital-mechanics.space/the-n-body-problem/Lagrange-points-example.html
+
 Queqiao-1
 https://en.wikipedia.org/wiki/Queqiao-1
+https://www.skyatnightmagazine.com/space-missions/queqiao-lunar-constellation
+https://www.skyatnightmagazine.com/space-missions/chang-e-6
+https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=QUEQIAO#:~:text=Queqiao%20(or%20Queqaio%201)%20is,lunar%20farside%20and%20the%20Earth.
+
 James Webb
 https://biolecta.com/articles/james-webb-space-telescope-orbit/
