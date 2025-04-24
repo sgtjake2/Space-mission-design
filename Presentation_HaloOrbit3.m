@@ -270,6 +270,8 @@ for i = 1:100:length(OM)
         OM(i,1) OM(i,2) OM(i,3)];
     addpoints(hD, d(:,1)/1000,d(:,2)/1000,d(:,3)/1000)
 
+    exportgraphics(f1,"test.gif","Append",true)
+
     %figure(2)
     %addpoints(hR1,yr(i,2),zr(i,3))
     addpoints(hR2,yr(i,2)/1000,zr(i,3)/1000)
