@@ -43,3 +43,11 @@ https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=QUEQIAO#:~:text=Que
 
 James Webb
 https://biolecta.com/articles/james-webb-space-telescope-orbit/
+
+To ADD
+HALO Orbit Determination, Integration, and Station Keeping
+https://docs.wixstatic.com/ugd/7fda7b_1789f8ac40874cac853d3d0a68b5eccc.pdf?index=true
+Trajectory Design using State Feedback for Satellite on a Halo Orbit
+https://ejaet.com/PDF/2-12/EJAET-2-12-53-58.pdf
+
+https://www.spaceacademy.net.au/library/notes/lagrangp.htm

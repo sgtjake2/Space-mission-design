@@ -200,6 +200,26 @@ lgd.Location = "eastoutside";
 
 hold off
 
+%3D rotational frame
+figure(6)
+movegui([100 300])
+hold on
+grid on
+xlabel("Xr (km)")
+ylabel("Yr (km)")
+zlabel("Zr (km)")
+title("Three Body Simulation of Earth, Moon and Satalite")
+s = plot3(xr(:,1)/1000,yr(:,2)/1000,zr(:,3)/1000);
+l2 = plot3(xL2/1000,0,0, LineStyle="none",Marker="o");
+start = plot3(xr(1,1)/1000,yr(1,2)/1000,zr(1,3)/1000,"Marker","*","Color","green","LineStyle","none");
+finish = plot3(xr(end,1)/1000,yr(end,2)/1000,zr(end,3)/1000,"Marker","*","Color","red","LineStyle","none");
+hR4 = animatedline("Color","green","LineStyle","none","Marker","o");
+
+view(3)
+daspect([1 1 1])
+
+hold off
+
 %Figure 3
 figure(3)
 hold on
@@ -246,6 +266,8 @@ for i = 1:100:length(OM)
     %figure(3)
     addpoints(hR3,xr(i,1)/1000,zr(i,3)/1000)
 
+    addpoints(hR4,xr(i,1)/1000,yr(i,2)/1000,zr(i,3)/1000)
+
     pause(0.001)
 
     if i < length(OM)-100
@@ -257,6 +279,7 @@ for i = 1:100:length(OM)
         clearpoints(hD)
         clearpoints(hR3)
         clearpoints(hR2)
+        clearpoints(hR4)
     end
 end
 

@@ -195,8 +195,34 @@ lgd.Location = "eastoutside";
 
 hold off
 
+%3D rotational frame
+figure(6)
+movegui([100 300])
+hold on
+grid on
+xlabel("Xr (km)")
+ylabel("Yr (km)")
+zlabel("Zr (km)")
+title("Three Body Simulation of Earth, Moon and Satalite")
+s = plot3(xr(:,1)/1000,yr(:,2)/1000,zr(:,3)/1000);
+l2 = plot3(xL2/1000,0,0, LineStyle="none",Marker="o");
+start = plot3(xr(1,1)/1000,yr(1,2)/1000,zr(1,3)/1000,"Marker","*","Color","green","LineStyle","none");
+finish = plot3(xr(end,1)/1000,yr(end,2)/1000,zr(end,3)/1000,"Marker","*","Color","red","LineStyle","none");
+hR4 = animatedline("Color","green","LineStyle","none","Marker","o");
+
+plots = [s l2 start finish hR4];
+l = ["Satalite Path","L2 Point", "Start Position","End Position","Satalite"];
+
+lgd = legend(plots, l);
+lgd.Location = "eastoutside";
+
+view(3)
+daspect([1 1 1])
+
+hold off
+
 %Plotting three body simulation
-figure(1)
+f1 = figure(1);
 movegui([300 300])
 hold on
 grid on
@@ -251,6 +277,8 @@ for i = 1:100:length(OM)
     %figure(3)
     addpoints(hR3,xr(i,1)/1000,zr(i,3)/1000)
 
+    %figure(6)
+    addpoints(hR4,xr(i,1)/1000,yr(i,2)/1000,zr(i,3)/1000)
 
     pause(0.001)
 
@@ -264,8 +292,38 @@ for i = 1:100:length(OM)
         %clearpoints(hR1)
         clearpoints(hR2)
         clearpoints(hR3)
+        clearpoints(hR4)
     end
 end
+
+%{
+f3 = figure(300);
+hold on
+grid on
+xlabel("X (km)")
+ylabel("Y (km)")
+zlabel("Z (km)")
+title("Three Body Simulation of Earth, Moon and Satalite")
+e = plot3(OE(:,1)/1000,OE(:,2)/1000,OE(:,3)/1000);
+m = plot3(OM(:,1)/1000,OM(:,2)/1000,OM(:,3)/1000);
+s = plot3(OS(:,1)/1000,OS(:,2)/1000,OS(:,3)/1000);
+start = plot3(OS(1,1)/1000,OS(1,2)/1000,OS(1,3)/1000,"Marker","*","Color","green","LineStyle","none");
+finish = plot3(OS(end,1)/1000,OS(end,2)/1000,OS(end,3)/1000,"Marker","*","Color","red","LineStyle","none");
+
+view(3)
+for i = 1:1000:length(OM)
+    eM = plot3(OM(:,1)/1000,OM(:,2)/1000,OM(:,3)/1000,"Color","red","LineStyle","none","Marker","o");
+    eS = plot3(OS(:,1)/1000,OS(:,2)/1000,OS(:,3)/1000,"Color","green","LineStyle","none","Marker","o");
+    F(i) = getframe(f3);
+    delete(eM)
+    delete(eS)
+end
+
+video = VideoWriter("Plot.avi","Uncompressed AVI");
+open(video)
+writeVideo(video,F)
+close(video)
+%}
 
 %% hmmmmm
 
