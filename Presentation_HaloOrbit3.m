@@ -94,7 +94,7 @@ end
 mid = int16(length(OS)/2);
 
 %Figure 3
-figure(3)
+f3 = figure(3);
 hold on
 grid on
 side = plot(xr(:,1)/1000,zr(:,3)/1000);
@@ -121,7 +121,7 @@ lgd.Location = "eastoutside";
 hold off
 
 %Plotting Rotational Plane
-figure(2)
+f2 = figure(2);
 movegui([1000 300])
 %{
 subplot(1,2,1)
@@ -167,7 +167,7 @@ lgd.Location = "eastoutside";
 hold off
 
 %Unanimated Fig 1
-figure(5)
+f5 = figure(5);
 movegui([300 300])
 hold on
 grid on
@@ -196,7 +196,7 @@ lgd.Location = "eastoutside";
 hold off
 
 %3D rotational frame
-figure(6)
+f6 = figure(6);
 movegui([100 300])
 hold on
 grid on
@@ -270,17 +270,22 @@ for i = 1:100:length(OM)
         OM(i,1) OM(i,2) OM(i,3)];
     addpoints(hD, d(:,1)/1000,d(:,2)/1000,d(:,3)/1000)
 
-    exportgraphics(f1,"test.gif","Append",true)
+    %exportgraphics(f1,"Test2_f1.gif","Append",true)
 
     %figure(2)
-    %addpoints(hR1,yr(i,2),zr(i,3))
     addpoints(hR2,yr(i,2)/1000,zr(i,3)/1000)
+
+    %exportgraphics(f2,"Test2_f2.gif","Append",true)
 
     %figure(3)
     addpoints(hR3,xr(i,1)/1000,zr(i,3)/1000)
 
+    %exportgraphics(f3,"Test2_f3.gif","Append",true)
+
     %figure(6)
     addpoints(hR4,xr(i,1)/1000,yr(i,2)/1000,zr(i,3)/1000)
+
+    %exportgraphics(f6,"Test2_f6.gif","Append",true)
 
     pause(0.001)
 
@@ -297,35 +302,6 @@ for i = 1:100:length(OM)
         clearpoints(hR4)
     end
 end
-
-%{
-f3 = figure(300);
-hold on
-grid on
-xlabel("X (km)")
-ylabel("Y (km)")
-zlabel("Z (km)")
-title("Three Body Simulation of Earth, Moon and Satalite")
-e = plot3(OE(:,1)/1000,OE(:,2)/1000,OE(:,3)/1000);
-m = plot3(OM(:,1)/1000,OM(:,2)/1000,OM(:,3)/1000);
-s = plot3(OS(:,1)/1000,OS(:,2)/1000,OS(:,3)/1000);
-start = plot3(OS(1,1)/1000,OS(1,2)/1000,OS(1,3)/1000,"Marker","*","Color","green","LineStyle","none");
-finish = plot3(OS(end,1)/1000,OS(end,2)/1000,OS(end,3)/1000,"Marker","*","Color","red","LineStyle","none");
-
-view(3)
-for i = 1:1000:length(OM)
-    eM = plot3(OM(:,1)/1000,OM(:,2)/1000,OM(:,3)/1000,"Color","red","LineStyle","none","Marker","o");
-    eS = plot3(OS(:,1)/1000,OS(:,2)/1000,OS(:,3)/1000,"Color","green","LineStyle","none","Marker","o");
-    F(i) = getframe(f3);
-    delete(eM)
-    delete(eS)
-end
-
-video = VideoWriter("Plot.avi","Uncompressed AVI");
-open(video)
-writeVideo(video,F)
-close(video)
-%}
 
 %% hmmmmm
 

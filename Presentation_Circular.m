@@ -91,7 +91,7 @@ end
 mid = int16(length(OS)/2);
 
 %Plotting Rotational Plane
-figure(2)
+f2 = figure(2);
 movegui([1000 300])
 %{
 subplot(1,2,1)
@@ -168,7 +168,7 @@ lgd.Location = "eastoutside";
 hold off
 
 %Plotting three body simulation
-figure(1)
+f1 = figure(1);
 movegui([300 300])
 hold on
 grid on
@@ -221,7 +221,7 @@ daspect([1 1 1])
 hold off
 
 %Figure 3
-figure(3)
+f3 = figure(3);
 hold on
 grid on
 side = plot(xr(:,1)/1000,zr(:,3)/1000,LineWidth=1.5);
@@ -259,13 +259,19 @@ for i = 1:100:length(OM)
         OM(i,1) OM(i,2) OM(i,3)];
     addpoints(hD, d(:,1)/1000,d(:,2)/1000,d(:,3)/1000)
 
+    %exportgraphics(f1,"Test1_f1.gif","Append",true)
+
     %figure(2)
-    %addpoints(hR3,yr(i,2),zr(i,3))
-    addpoints(hR2,yr(i,2)/1000,zr(i,3)/1000)
+    %addpoints(hR2,yr(i,2)/1000,zr(i,3)/1000)
+
+    %exportgraphics(f2,"Test1_f2.gif","Append",true)
 
     %figure(3)
     addpoints(hR3,xr(i,1)/1000,zr(i,3)/1000)
 
+    %exportgraphics(f3,"Test1_f3.gif","Append",true)
+
+    %figure(4)
     addpoints(hR4,xr(i,1)/1000,yr(i,2)/1000,zr(i,3)/1000)
 
     pause(0.001)
